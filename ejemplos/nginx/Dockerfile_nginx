@@ -1,0 +1,14 @@
+FROM nginx
+
+RUN apt-get update \ 
+  && apt-get install -y wget unzip \
+  && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /usr/share/nginx/html
+
+RUN wget -O content.zip -q http://www.oswd.org/design/download/id/3558/ \
+  && unzip -q content.zip \
+  && rm content.zip \
+  && mv bookish/* .
+
+RUN apt-get remove -y wget unzip

@@ -1,0 +1,10 @@
+FROM maven AS build
+WORKDIR /tmp
+COPY . .
+RUN mvn install
+
+
+FROM tomcat
+ARG TECH=struts
+WORKDIR /usr/local/tomcat/webapps
+COPY --from=build /tmp/todolist-web-${TECH}/target/todolist.war ./ROOT.war

@@ -1,0 +1,9 @@
+ARG TOMCAT_VERSION=latest
+
+FROM tomcat:${TOMCAT_VERSION}
+
+ARG TECH=struts
+
+WORKDIR /usr/local/tomcat/webapps
+COPY todolist-web-${TECH}/target/todolist.war ./ROOT.war
+

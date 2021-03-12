@@ -1,0 +1,7 @@
+FROM jetty
+
+ARG TECH=struts
+
+WORKDIR /var/lib/jetty/webapps
+COPY todolist-web-${TECH}/target/todolist.war ./ROOT.war
+WORKDIR /var/lib/jetty/

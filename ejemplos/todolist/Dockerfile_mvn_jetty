@@ -1,0 +1,11 @@
+FROM maven AS build
+WORKDIR /tmp
+COPY . .
+RUN mvn install
+
+
+FROM jetty
+ARG TECH=struts
+WORKDIR /var/lib/jetty/webapps
+COPY --from=build /tmp/todolist-web-${TECH}/target/todolist.war ./ROOT.war
+WORKDIR /var/lib/jetty/
