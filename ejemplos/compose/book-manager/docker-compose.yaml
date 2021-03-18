@@ -1,0 +1,26 @@
+version: '3'
+services:
+  docker-mysql:
+    restart: always
+    image: mysql
+    environment:
+      MYSQL_DATABASE: book_manager
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 20s
+      retries: 10
+
+  book-manager-app:
+    restart: on-failure
+    build: ./
+    expose:
+      - "10222"
+    ports:
+      - 10222:10222
+    depends_on:
+      - docker-mysql
